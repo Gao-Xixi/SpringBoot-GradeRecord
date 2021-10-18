@@ -1,12 +1,14 @@
 package com.xixi.graderecord.service;
 
 import com.xixi.graderecord.entity.GradeRecord;
+import com.xixi.graderecord.error.GradeRecordNotFoundException;
 import com.xixi.graderecord.repository.GradeRecordRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class GradeRecordServiceImp implements GradeRecordService{
@@ -27,9 +29,14 @@ public class GradeRecordServiceImp implements GradeRecordService{
     }
 
     @Override
-    public GradeRecord fetchGradeRecordById(Long gradeId) {
+    public GradeRecord fetchGradeRecordById(Long gradeId) throws GradeRecordNotFoundException {
 
-        return gradeRecordRepository.findById(gradeId).get();
+        Optional<GradeRecord> gradeRecord = gradeRecordRepository.findById(gradeId);
+
+        if(!gradeRecord.isPresent()){
+            throw new GradeRecordNotFoundException();
+        }
+        return gradeRecord.get();
     }
 
     @Override

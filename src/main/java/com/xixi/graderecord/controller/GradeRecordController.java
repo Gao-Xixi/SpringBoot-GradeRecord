@@ -2,28 +2,33 @@ package com.xixi.graderecord.controller;
 
 import com.xixi.graderecord.entity.GradeRecord;
 import com.xixi.graderecord.service.GradeRecordService;
-import com.xixi.graderecord.service.GradeRecordServiceImp;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
-import java.util.Optional;
+
 
 @RestController
 public class GradeRecordController {
 
     @Autowired
     private GradeRecordService gradeRecordService;
+
+    private final Logger LOGGER = LoggerFactory.getLogger(GradeRecord.class);
     @PostMapping("/grades")
-    public <Optional>GradeRecord saveGradeRecord(@RequestBody GradeRecord gradeRecord){
+    public <Optional>GradeRecord saveGradeRecord(@Validated @RequestBody GradeRecord gradeRecord){
+        LOGGER.info("Inside saveGradeRecord of GradeRecordController");
         return gradeRecordService.saveGradeRecord(gradeRecord);
     }
     @GetMapping("/grades")
     public List<GradeRecord> fetchGradeRecordList(){
+        LOGGER.info("Inside fetchGradeRecord of GradeRecordController");
         return gradeRecordService.fetchGradeRecordList();
     }
     @GetMapping("/grades/id/{id}")
-    public GradeRecord fetchGradeRecordById(@PathVariable("id") Long gradeId){
+    public GradeRecord fetchGradeRecordById(@PathVariable("id") Long gradeId) throws Exception{
         return gradeRecordService.fetchGradeRecordById(gradeId);
     }
     @DeleteMapping("/grades/id/{id}")
