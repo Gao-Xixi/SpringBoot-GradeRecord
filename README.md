@@ -25,3 +25,23 @@ Springboot, mysql, thymeleaf
     "code":"1023",
     "grade":"A+"
 }
+
+### validation
+@NotBlank
+@length(max =, min =)
+private String Code;
+### logger
+private final Logger LOGGER = LoggerFactoral.getLogger(GradeRecord.class);
+LOGGER.info(" ")
+### Unit Tests
+-Service
+@MockBean
+    private GradeRecordRepository gradeRecordRepository;
+-Repository
+@RunWith(SpringRunner.class)
+@DataJpaTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@Autowired
+    private TestEntityManager entityManager;
+    
+    entityManager.persist((gradeRecord));
